@@ -1,24 +1,18 @@
 <template>
   <label>
     {{stageName}}
-    <input :class='["capacity", stageName]' type="text" v-model='currCapacity' @keyup="notifyNewCapacity">
+    <input :class='["capacity", stageName]' type="text" ref='cap' :value="value" @input="updateCapacity">
   </label>
 </template>
 
 <script>
 export default {
   name: 'CapacitySetter',
-  props: ['stageName', 'initialCapacity'],
-  data: function () {
-    return {currCapacity: this.initialCapacity}
-  },
+  props: ['stageName', 'value'],
   methods: {
-    notifyNewCapacity () {
-      this.$emit('new-capacity', {stage: this.stageName, capacity: this.currCapacity})
+    updateCapacity () {
+      this.$emit('input', this.$refs.cap.value)
     }
-  },
-  created () {
-    this.$emit('new-capacity', {stage: this.stageName, capacity: this.currCapacity})
   }
 }
 </script>
